@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "501898269536",
+    "project_id": "ses-project-ceba2",
+    "storage_bucket": "ses-project-ceba2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:501898269536:android:7572d628ab6458adaa4405",
+        "android_client_info": {
+          "package_name": "com.project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "501898269536-6f3kqq1nq7rkme8imercvatvtb8tgoo3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.project",
+            "certificate_hash": "67ae1868f8e12fd020c7fa574b2c09d003c75df2"
+          }
+        },
+        {
+          "client_id": "501898269536-vf82718q7d7k7r7vef614iqd5sm9imud.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1iTh0_YUDiqfu3bdunEh61iXZz-aZD4w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "501898269536-vf82718q7d7k7r7vef614iqd5sm9imud.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

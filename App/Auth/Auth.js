@@ -30,7 +30,7 @@ const login = async (loginInfo) => {
     if (error.code === 'auth/user-not-found')
       return (result = {error: 'user not found'});
     if (error.code === 'auth/wrong-password') {
-      return (result = {error: 'Wrong password'});
+      return (result = {error: 'Incorrect password'});
     }
     console.log('error while login', error);
     return (result = {error: error});

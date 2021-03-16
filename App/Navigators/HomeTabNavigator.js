@@ -11,15 +11,19 @@ function HomeTabNavigator() {
     <Tab.Navigator
       tabBarOptions={{
         style: {
+          // zIndex: 0,
           // borderBottomWidth: 15,
           // borderTopRightRadius: 15,
           // borderWidth: 10,
           // borderColor: Colors.white,
           // borderTopWidth: 10,
           // borderTopColor: Colors.white,
-          marginHorizontal: 10,
-          marginVertical: 5,
+          // position: 'relative',
+          // marginHorizontal: 10,
+          // marginVertical: 5,
           borderRadius: 15,
+          // width: '90%',
+          // bottom: 19,
 
           borderTopLeftRadius: 15,
           backgroundColor: '#E8E8E8',
@@ -28,6 +32,7 @@ function HomeTabNavigator() {
         tabStyle: {
           justifyContent: 'center',
         },
+        // activeBackgroundColor: Colors.yellow,
       }}>
       <Tab.Screen name="Add" component={Addpg} />
       <Tab.Screen name="Profile" component={Profile} />

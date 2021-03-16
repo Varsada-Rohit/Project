@@ -12,13 +12,15 @@ function FormInput({feildName, ...otherPerameters}) {
     values,
     errors,
   } = useFormikContext();
+
   return (
     <>
       <AppTextInput
         onChangeText={(input) => setFieldValue(feildName, input)}
-        value={values.feildName}
+        value={values[feildName]}
         error={touched[feildName] && errors[feildName]}
         onBlur={() => {
+          setFieldValue(feildName, values[feildName].trim());
           setFieldTouched(feildName);
         }}
         {...otherPerameters}

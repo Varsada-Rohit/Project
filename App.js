@@ -11,6 +11,7 @@ import LabeledCheckbox from './App/Components/LabeledCheckbox';
 import HomeTabNavigator from './App/Navigators/HomeTabNavigator';
 import auth from '@react-native-firebase/auth';
 import AuthContext from './App/Auth/Context';
+import StackNavigator from './App/Navigators/StackNavigator';
 
 function App() {
   const [user, setUser] = useState();

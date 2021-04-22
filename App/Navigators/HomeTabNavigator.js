@@ -1,41 +1,84 @@
 import React from 'react';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import Addpg from '../Screen/Addpg';
 import Colors from '../Config/Colors';
-import Profile from '../Screen/Profile';
+import {Icon} from 'native-base';
+import HomeStackNavigator from './HomeStackNavigator';
+import ProfileStackNavigator from './ProfileStackNavigator';
+import AddingStackNavigator from './AddingStackNavigator';
 
-const Tab = createBottomTabNavigator();
+const Tab = createMaterialBottomTabNavigator();
 
 function HomeTabNavigator() {
   return (
     <Tab.Navigator
-      tabBarOptions={{
-        style: {
-          // zIndex: 0,
-          // borderBottomWidth: 15,
-          // borderTopRightRadius: 15,
-          // borderWidth: 10,
-          // borderColor: Colors.white,
-          // borderTopWidth: 10,
-          // borderTopColor: Colors.white,
-          // position: 'relative',
-          // marginHorizontal: 10,
-          // marginVertical: 5,
-          borderRadius: 15,
-          // width: '90%',
-          // bottom: 19,
+      screenOptions={({route}) => ({
+        tabBarIcon: ({focused, color, size}) => {
+          let iconName;
 
-          borderTopLeftRadius: 15,
-          backgroundColor: '#E8E8E8',
+          if (route.name === 'Home') {
+            iconName = focused
+              ? 'ios-search-circle'
+              : 'ios-search-circle-outline';
+          } else if (route.name === 'Add') {
+            iconName = focused ? 'ios-add-circle' : 'ios-add-circle-outline';
+          } else if (route.name === 'ProfileStack') {
+            iconName = focused ? 'person-circle' : 'person-circle-outline';
+          }
+
+          // You can return any component that you like here!
+          return <Icon name={iconName} style={{color: color, fontSize: 25}} />;
         },
-        keyboardHidesTabBar: true,
-        tabStyle: {
-          justifyContent: 'center',
-        },
-        // activeBackgroundColor: Colors.yellow,
-      }}>
-      <Tab.Screen name="Add" component={Addpg} />
-      <Tab.Screen name="Profile" component={Profile} />
+      })}
+      // sceneAnimationEnabled
+      // backBehavior="firstRoute"
+      shifting
+      labeled={false}
+      barStyle={{
+        backgroundColor: Colors.primary,
+        // borderBottomEndRadius: 20,
+        borderWidth: 5,
+        borderColor: Colors.primary,
+        margin: 5,
+        marginHorizontal: 10,
+        backfaceVisibility: 'visible',
+        borderRadius: 2,
+        borderBottomLeftRadius: 15,
+        borderBottomRightRadius: 15,
+        elevation: 5,
+      }}
+      keyboardHidesNavigationBar
+      style={{
+        backgroundColor: Colors.secondary,
+        display: 'flex',
+      }}
+      // style={{backgroundColor: Colors.primary}}
+      // tabBarOptions={{
+      //   showLabel: false,
+      //   activeTintColor: 'white',
+      //   inactiveTintColor: 'white',
+      //   style: {
+      //     backgroundColor: '#627ca8',
+      //     borderBottomEndRadius: 20,
+      //     borderBottomStartRadius: 20,
+      //     margin: 10,
+      //     borderTopEndRadius: 2,
+      //     borderTopStartRadius: 2,
+      //   },
+      //   keyboardHidesTabBar: true,
+      //   tabStyle: {
+      //     justifyContent: 'center',
+      //   },
+
+      //   // labelStyle: {
+      //   //   color: 'black',
+      //   // },
+      //   // activeBackgroundColor: Colors.yellow,
+      // }}
+    >
+      <Tab.Screen name="Home" component={HomeStackNavigator} />
+      <Tab.Screen name="Add" component={AddingStackNavigator} />
+      <Tab.Screen name="ProfileStack" component={ProfileStackNavigator} />
     </Tab.Navigator>
   );
 }

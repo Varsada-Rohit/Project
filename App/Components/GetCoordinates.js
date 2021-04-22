@@ -30,8 +30,8 @@ function GetCoordinates({feildName}) {
       setInitialRegion({
         latitude: position.coords.latitude,
         longitude: position.coords.longitude,
-        latitudeDelta: 5,
-        longitudeDelta: 5,
+        latitudeDelta: 0.1,
+        longitudeDelta: 0.1,
       });
       setMarker({
         latitude: position.coords.latitude,
@@ -147,6 +147,7 @@ const styles = StyleSheet.create({
   },
   locationIcon: {
     position: 'absolute',
+    elevation: 3,
     right: 15,
     top: 30,
   },

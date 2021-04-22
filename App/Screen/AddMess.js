@@ -1,91 +1,68 @@
-import React, {useEffect, useState} from 'react';
-import {
-  View,
-  StyleSheet,
-  Modal,
-  ScrollView,
-  Text,
-  Alert,
-  PermissionsAndroid,
-} from 'react-native';
-import CheckBox from '@react-native-community/checkbox';
-import * as yup from 'yup';
+import React, {useState} from 'react';
+import {View, StyleSheet, ScrollView} from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import {geohashForLocation} from 'geofire-common';
+import * as yup from 'yup';
 
 import Colors from '../Config/Colors';
-
 import FormikForm from '../Components/FormikForm';
 import FormInput from '../Components/FormInput';
-import FormSubmit from '../Components/FormSubmit';
 import FormInputImage from '../Components/FormInputImage';
-import LabeledCheckbox from '../Components/LabeledCheckbox';
+import FormSubmit from '../Components/FormSubmit';
 import GetCoordinates from '../Components/GetCoordinates';
-
 import Loading from '../Components/Loading';
 
-function Addpg() {
-  const [forBoys, setForBoys] = useState(true);
+function AddMess() {
   const [loading, setLoading] = useState(false);
-
-  const {user} = useAuth();
 
   const Schema = yup.object().shape({
     title: yup.string().required().label('Name'),
     address: yup.string().required(),
-    rent: yup.number().required(),
-    capacity: yup.number().required(),
+    rate: yup.number().required(),
     images: yup.array().min(1).required(),
-    additionF: yup.object(),
-    forBoys: yup.boolean(),
     about: yup.string().required(),
     coordinate: yup.object().required(),
   });
 
-  const handleSubmit = async (pgInfo, resetForm) => {
+  const handleSubmit = (values, resetForm) => {
     setLoading(true);
+
     let geo = geohashForLocation([
-      pgInfo.coordinate['latitude'],
-      pgInfo.coordinate['longitude'],
+      values.coordinate['latitude'],
+      values.coordinate['longitude'],
     ]);
-    const firestoreRef = firestore().collection('PG');
+
+    let formdata = {...values};
+    delete formdata.coordinate;
+    delete formdata.images;
+    let firestoreRef = firestore().collection('Mess');
     firestoreRef
       .add({
-        userId: user.email,
-        Title: pgInfo.title,
-        Rent: parseInt(pgInfo.rent),
-        Address: pgInfo.address,
         Location: new firestore.GeoPoint(
-          pgInfo.coordinate['latitude'],
-          pgInfo.coordinate['longitude'],
+          values.coordinate['latitude'],
+          values.coordinate['longitude'],
         ),
         geohash: geo,
-        rating: 0,
-        noOfRatings: 0,
-        Photos: [],
-        Capacity: parseInt(pgInfo.capacity),
-        ForBoys: pgInfo.forBoys,
-        AdditionFacilities: pgInfo.additionalF,
-        About: pgInfo.about,
+        photos: [],
+        ...formdata,
       })
-      .then((data) => {
-        console.log('added', data.id);
-        pgInfo.images.map(async (img, i) => {
+      .then(async (data) => {
+        await values.images.map(async (img, i) => {
           let storageRef = storage()
-            .ref('PgPhotos/' + data.id)
+            .ref('MessPhotos/' + data.id)
             .child('image' + i);
           await storageRef.putFile(img);
           let url = await storageRef.getDownloadURL();
           await firestoreRef
             .doc(data.id)
-            .update({Photos: firestore.FieldValue.arrayUnion(url)});
-          resetForm();
-          setLoading(false);
+            .update({photos: firestore.FieldValue.arrayUnion(url)});
         });
+        resetForm();
+        setLoading(false);
       })
       .catch((error) => {
-        console.log('Error uploading Pg', error);
+        console.log('Error adding mess', error);
         setLoading(false);
       });
   };
@@ -99,21 +76,7 @@ function Addpg() {
           initialValues={{
             title: '',
             address: '',
-            rent: '',
-            capacity: '',
-            additionalF: {
-              Furnished: false,
-              StudyT: false,
-              AC: false,
-              Geyser: false,
-              Bed: false,
-              TV: false,
-              WashingM: false,
-              Fride: false,
-              Sofa: false,
-              WaterP: false,
-            },
-            forBoys: true,
+            rate: '',
             about: '',
             coordinate: '',
             images: [],
@@ -137,12 +100,12 @@ function Addpg() {
           />
           <GetCoordinates feildName="coordinate" />
           <FormInput
-            placeholder="Rent"
+            placeholder="Rate /m"
             keyboardType="numeric"
-            feildName="rent"
+            feildName="rate"
             icon="currency-inr"
           />
-          <FormInput
+          {/* <FormInput
             placeholder="Total Capacity"
             keyboardType="numeric"
             feildName="capacity"
@@ -223,7 +186,7 @@ function Addpg() {
                 feildName="additionalF.WaterP"
               />
             </View>
-          </View>
+          </View> */}
           <FormInput
             icon="information-variant"
             placeholder="About Property"
@@ -252,14 +215,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#eee9e0',
     overflow: 'visible',
   },
-
-  heading: {
-    fontSize: 33,
-    fontFamily: 'Poppins-Regular',
-    width: '75%',
-    marginTop: 20,
-    marginBottom: 30,
-  },
 });
 
-export default Addpg;
+export default AddMess;

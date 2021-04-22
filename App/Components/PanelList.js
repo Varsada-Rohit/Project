@@ -27,10 +27,10 @@ const styles = StyleSheet.create({
   },
   icon: {
     margin: 5,
-    color: Colors.yellow,
+    color: '#627ca8',
   },
   text: {
-    marginRight: 20,
+    marginRight: 25,
     marginLeft: 20,
   },
 });

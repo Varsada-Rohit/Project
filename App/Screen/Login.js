@@ -45,20 +45,23 @@ function Login({navigation}) {
           onSubmit={(values) => handleSubmit(values)}
           validationSchema={Schema}>
           <FormInput
+            icon="email"
             feildName="email"
             textContentType="emailAddress"
             keyboardType="email-address"
+            autoCapitalize="none"
             placeholder="Email"
           />
           <FormPasswordInput
+            icon="key"
             feildName="password"
             placeholder="Password"
             textContentType="password"
           />
           <FormSubmit
             title="Submit"
-            backgroundColor={Colors.black}
-            color={Colors.white}
+            backgroundColor={'rgba(162, 171, 186,0.2)'}
+            color={Colors.primary}
           />
         </FormikForm>
         <View style={{flexDirection: 'row', justifyContent: 'center'}}>
@@ -77,11 +80,13 @@ function Login({navigation}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginHorizontal: 10,
+    paddingHorizontal: 10,
     justifyContent: 'center',
+    backgroundColor: Colors.secondary,
   },
   heading: {
     fontSize: 30,
+    color: Colors.primary,
     fontWeight: '700',
     fontFamily: 'serif',
     width: '70%',

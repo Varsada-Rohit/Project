@@ -5,6 +5,7 @@ import {
   Text,
   TouchableWithoutFeedback,
   ScrollView,
+  KeyboardAvoidingView,
 } from 'react-native';
 import * as yup from 'yup';
 
@@ -64,9 +65,10 @@ function Register({navigation}) {
 
   return (
     <>
-      <ScrollView>
-        <View style={styles.container}>
-          <Text style={styles.heading}>Create a new account</Text>
+      <KeyboardAvoidingView style={styles.container} behavior="position">
+        {/* <ScrollView keyboardShouldPersistTaps="always" style={{flex: 1}}> */}
+        <Text style={styles.heading}>Create a new account</Text>
+        <View style={{flexGrow: 1}}>
           <ErrorText style={styles.error} visible={true} error={error} />
           <FormikForm
             initialValues={{
@@ -79,6 +81,7 @@ function Register({navigation}) {
             onSubmit={(values) => handleSubmit(values)}
             validationSchema={Schema}>
             <FormInput
+              icon="account-circle"
               feildName="dname"
               placeholder="Name"
               textContentType="name"
@@ -86,13 +89,16 @@ function Register({navigation}) {
             />
 
             <FormInput
+              icon="email"
               feildName="email"
               textContentType="emailAddress"
               // icon={'email'}
               placeholder={'Email'}
+              autoCapitalize="none"
               keyboardType={'email-address'}
             />
             <FormInput
+              icon="phone"
               feildName="phone"
               textContentType="telephoneNumber"
               // icon={'email'}
@@ -100,12 +106,14 @@ function Register({navigation}) {
               keyboardType={'phone-pad'}
             />
             <FormPasswordInput
+              icon="key"
               feildName="password"
               textContentType="password"
               // name={'key'}
               placeholder={'Password'}
             />
             <FormPasswordInput
+              icon="key"
               feildName="confirmP"
               textContentType="password"
               // name={'key'}
@@ -113,20 +121,22 @@ function Register({navigation}) {
             />
             <FormSubmit
               style={styles.submit}
+              color={Colors.primary}
               title={'Sign Up'}
-              color={Colors.white}
               backgroundColor={Colors.black}
             />
           </FormikForm>
-          <View style={{flexDirection: 'row', alignSelf: 'center'}}>
-            <Text style={styles.footer}>Already have an account? Sign in</Text>
-            <TouchableWithoutFeedback
-              onPress={() => navigation.navigate('Login')}>
-              <Text> Sign in</Text>
-            </TouchableWithoutFeedback>
-          </View>
         </View>
-      </ScrollView>
+        <View style={{flexDirection: 'row', alignSelf: 'center'}}>
+          <Text style={styles.footer}>Already have an account? Sign in</Text>
+          <TouchableWithoutFeedback
+            onPress={() => navigation.navigate('Login')}>
+            <Text> Sign in</Text>
+          </TouchableWithoutFeedback>
+        </View>
+        {/* </ScrollView> */}
+      </KeyboardAvoidingView>
+
       <Loading visible={loading} />
     </>
   );
@@ -135,8 +145,11 @@ function Register({navigation}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    width: '100%',
+    // justifyContent: 'center',
     padding: 10,
+    backgroundColor: Colors.secondary,
+    overflow: 'scroll',
   },
   error: {
     alignSelf: 'center',
@@ -153,9 +166,14 @@ const styles = StyleSheet.create({
     width: '75%',
     marginTop: 10,
     marginBottom: 30,
+    color: Colors.primary,
   },
   submit: {
-    alignSelf: 'center',
+    // alignSelf: 'center',
+
+    borderColor: Colors.primary,
+    borderWidth: 1,
+    backgroundColor: 'rgba(162, 171, 186,0.2)',
   },
 });
 

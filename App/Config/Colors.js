@@ -4,4 +4,7 @@ export default {
   grey: '#C9C9C9',
   white: 'white',
   red: 'red',
+  lightSecondary: '#fffcf7',
+  primary: '#627ca8',
+  secondary: '#eee9e0',
 };

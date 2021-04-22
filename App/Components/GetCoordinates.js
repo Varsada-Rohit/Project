@@ -3,6 +3,8 @@ import {View, StyleSheet, Modal, PermissionsAndroid} from 'react-native';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import RNAndroidLocationEnabler from 'react-native-android-location-enabler';
 import {useFormikContext} from 'formik';
+import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
+import Geolocation from '@react-native-community/geolocation';
 
 import FormInput from './FormInput';
 import Icon from './Icon';
@@ -15,10 +17,32 @@ function GetCoordinates({feildName}) {
   const [showMap, setShowMap] = useState(false);
   const {values, setFieldValue, setFieldTouched} = useFormikContext();
   const [marker, setMarker] = useState();
+  const [initialRegion, setInitialRegion] = useState();
 
   useEffect(() => {
     requestLocationPermision();
+    getCurrentLocation();
   }, []);
+
+  const getCurrentLocation = () => {
+    Geolocation.getCurrentPosition((position) => {
+      console.log(position.coords);
+      setInitialRegion({
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+        latitudeDelta: 0.1,
+        longitudeDelta: 0.1,
+      });
+      setMarker({
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+      });
+      setFieldValue(feildName, {
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+      });
+    });
+  };
 
   RNAndroidLocationEnabler.promptForEnableLocationIfNeeded({
     interval: 10000,
@@ -45,8 +69,8 @@ function GetCoordinates({feildName}) {
 
   return (
     <View style={styles.container}>
-      <Modal visible={showMap} animationType="slide">
-        <MapboxGL.MapView
+      <Modal visible={showMap} animationType="none">
+        {/* <MapboxGL.MapView
           style={{width: '100%', height: '100%'}}
           logoEnabled={false}
           onPress={(event) => {
@@ -58,22 +82,51 @@ function GetCoordinates({feildName}) {
             <MapboxGL.PointAnnotation id="marker" coordinate={marker} />
           )}
           <MapboxGL.UserLocation />
-        </MapboxGL.MapView>
+        </MapboxGL.MapView> */}
+        <MapView
+          provider={PROVIDER_GOOGLE} // remove if not using Google Maps
+          style={{width: '100%', height: '100%'}}
+          followsUserLocation
+          initialRegion={initialRegion}
+          showsUserLocation
+          onMapReady={() => {}}>
+          {marker && (
+            <Marker
+              coordinate={marker}
+              draggable
+              onDragEnd={(event) => {
+                setMarker(event.nativeEvent.coordinate);
+                setFieldValue(feildName, event.nativeEvent.coordinate);
+              }}
+            />
+          )}
+        </MapView>
         <Icon
           name="check"
           style={styles.doneIcon}
           onPress={() => {
-            setFieldTouched(feildName);
+            console.log(values[feildName]);
+            if (!values[feildName]) {
+              getCurrentLocation();
+            }
+            // setFieldTouched(feildName);
             setShowMap(false);
           }}
         />
       </Modal>
       <FormInput
         placeholder="Coordinate"
-        value={values[feildName].toString()}
+        value={
+          'Latitude : ' +
+          values[feildName]['latitude'] +
+          '\nLongitude : ' +
+          values[feildName]['longitude']
+        }
         feildName={feildName}
+        multiline
         editable={false}
       />
+
       <Icon
         style={styles.locationIcon}
         name="map-marker-radius"
@@ -94,8 +147,9 @@ const styles = StyleSheet.create({
   },
   locationIcon: {
     position: 'absolute',
+    elevation: 3,
     right: 15,
-    top: 20,
+    top: 30,
   },
 });
 

@@ -1,25 +1,42 @@
 import React from 'react';
-import {TouchableOpacity, Text, StyleSheet} from 'react-native';
+import {
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+  TouchableNativeFeedback,
+  View,
+} from 'react-native';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-function AppButton({title, onPress, backgroundColor, color, style}) {
+function AppButton({title, onPress, backgroundColor, color, style, icon}) {
   return (
-    <TouchableOpacity
-      style={[styles.constainer, {backgroundColor: backgroundColor}, style]}
-      onPress={onPress}>
-      <Text style={[styles.title, {color: color ? color : 'black'}]}>
-        {title}
-      </Text>
-    </TouchableOpacity>
+    <TouchableNativeFeedback onPress={onPress}>
+      <View
+        style={[styles.constainer, {backgroundColor: backgroundColor}, style]}>
+        {icon && (
+          <MaterialCommunityIcons
+            name={icon}
+            color={color ? color : 'black'}
+            size={20}
+            style={styles.icon}
+          />
+        )}
+        <Text style={[styles.title, {color: color ? color : 'black'}]}>
+          {title}
+        </Text>
+      </View>
+    </TouchableNativeFeedback>
   );
 }
 
 const styles = StyleSheet.create({
   constainer: {
-    width: '100%',
-
+    // width: '100%',
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 15,
+    marginHorizontal: 3,
+    borderRadius: 5,
     backgroundColor: 'grey',
     marginVertical: 10,
     paddingVertical: 20,
@@ -27,6 +44,10 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     textTransform: 'uppercase',
+    fontWeight: '700',
+  },
+  icon: {
+    marginHorizontal: 5,
   },
 });
 

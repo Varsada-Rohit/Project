@@ -2,13 +2,17 @@ import React from 'react';
 import {View, StyleSheet, ActivityIndicator} from 'react-native';
 import Colors from '../Config/Colors';
 
-function Loading({visible}) {
+function Loading({visible, color, size}) {
   if (!visible) {
     return null;
   }
   return (
     <View style={styles.container}>
-      <ActivityIndicator animating={visible} color={Colors.yellow} size={80} />
+      <ActivityIndicator
+        animating={visible}
+        color={color ? color : '#627ca8'}
+        size={size ? size : 80}
+      />
     </View>
   );
 }

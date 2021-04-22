@@ -10,7 +10,7 @@ function AppTextInput({icon, onBlur, error, ...otherPerameters}) {
     <View
       style={[
         styles.container,
-        {borderColor: error ? Colors.red : focus ? Colors.yellow : Colors.grey},
+        {borderColor: error ? Colors.red : focus ? '#627ca8' : Colors.grey},
       ]}>
       {icon && (
         <MaterialCommunityIcons style={styles.icon} name={icon} size={25} />
@@ -31,9 +31,11 @@ function AppTextInput({icon, onBlur, error, ...otherPerameters}) {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    backgroundColor: '#ececec',
+    backgroundColor: '#fffcf7',
+    elevation: 2,
+    marginHorizontal: 3,
     // height: 40,
-    borderRadius: 15,
+    borderRadius: 5,
     alignItems: 'center',
     paddingHorizontal: 15,
     marginVertical: 7,
@@ -42,7 +44,7 @@ const styles = StyleSheet.create({
   },
   icon: {
     marginHorizontal: 5,
-    color: Colors.yellow,
+    color: '#627ca8',
   },
   textInput: {
     flex: 1,

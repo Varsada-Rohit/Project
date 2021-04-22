@@ -10,7 +10,7 @@ function LabeledCheckbox({label, feildName}) {
   return (
     <View style={styles.container}>
       <CheckBox
-        tintColors={{true: Colors.yellow, false: Colors.black}}
+        tintColors={{true: Colors.primary, false: Colors.black}}
         value={values[x[0]][x[1]]}
         onValueChange={(value) => setFieldValue(feildName, value)}
       />

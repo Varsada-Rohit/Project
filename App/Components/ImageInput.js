@@ -163,11 +163,15 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     backgroundColor: Colors.white,
   },
+  icon: {
+    color: '#627ca8',
+  },
   container: {
     height: 100,
     width: 100,
     borderRadius: 20,
-    backgroundColor: '#F0F0F0',
+    backgroundColor: Colors.lightSecondary,
+    elevation: 2,
     alignItems: 'center',
     justifyContent: 'center',
     overflow: 'hidden',

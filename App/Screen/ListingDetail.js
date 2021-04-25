@@ -4,29 +4,25 @@ import {View, StyleSheet, Image, Text, ScrollView} from 'react-native';
 import {SharedElement} from 'react-navigation-shared-element';
 import LocationDetailModal from '../Components/LocationDetailModal';
 
-function ListingDetail({route}) {
+function ListingDetail({route, navigation}) {
   const {item, id} = route.params;
 
   const nav = useNavigation();
 
   useEffect(() => {
-    // nav.setOptions({
-    //   headerTitle: () => (
-    //     <Text style={{color: '#627ca8', fontSize: 20, fontWeight: 'bold'}}>
-    //       hello
-    //     </Text>
-    //   ),
-    // });
+    // console.log('check', item);
   }, []);
 
   return (
     <LocationDetailModal
+      ownerId={item.userId ? item.userId : null}
       style={{borderTopLeftRadius: 0, borderTopRightRadius: 0}}
       placeDetail={{
         photos: item.Photos,
         phone: item.phone ? item.phone : null,
         website: item.website ? item.website : null,
       }}
+      navigation={navigation}
       rating={item.rating}
       noOfRatings={item.noOfRatings}
       id={id}

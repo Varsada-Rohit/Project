@@ -1,3 +1,4 @@
+import {Item} from 'native-base';
 import React from 'react';
 import {
   View,
@@ -26,6 +27,8 @@ const LocationDetailModal = ({
   id,
   about,
   style,
+  navigation,
+  ownerId,
 }) => {
   return (
     <ScrollView
@@ -145,12 +148,13 @@ const LocationDetailModal = ({
         </View>
         {/* <Button title="Hide" onPress={() => panel.current.hide()} /> */}
       </View>
-      <View style={{paddingHorizontal: 10}}>
+      <View style={{paddingHorizontal: 10, flex: 1, flexDirection: 'row'}}>
         <AppButton
           style={{
             height: 40,
             borderColor: '#627ca8',
             borderWidth: 1,
+            flex: 1,
           }}
           title="Directons"
           color="#627ca8"
@@ -160,6 +164,23 @@ const LocationDetailModal = ({
             Linking.openURL(directionUrl);
           }}
         />
+        {ownerId && (
+          <AppButton
+            style={{
+              height: 40,
+              borderColor: '#627ca8',
+              borderWidth: 1,
+              flex: 1,
+            }}
+            title="chat"
+            color="#627ca8"
+            // backgroundColor={'#627ca8'}
+            icon="chat-outline"
+            onPress={() => {
+              navigation.navigate('Chat', {ownerId: ownerId});
+            }}
+          />
+        )}
       </View>
     </ScrollView>
   );

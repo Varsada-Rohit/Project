@@ -13,7 +13,7 @@ import {
 import useAuth from '../Auth/useAuth';
 import Upload from '../Backend/Upload';
 import AppCard from '../Components/AppCard';
-import AppFab from '../Components/APPFab';
+import AppFab from '../Components/AppFab';
 import AppListItem from '../Components/AppListItem';
 import Colors from '../Config/Colors';
 

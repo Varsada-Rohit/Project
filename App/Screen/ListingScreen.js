@@ -21,7 +21,8 @@ import Loading from '../Components/Loading';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import {Icon} from 'native-base';
 import {HeaderTitle} from '@react-navigation/stack';
-import AppFab from '../Components/APPFab';
+import AppFab from '../Components/AppFab';
+import Colors from '../Config/Colors';
 
 function ListingScreen({route, navigation}) {
   const [places, setPlaces] = useState();
@@ -34,18 +35,28 @@ function ListingScreen({route, navigation}) {
   useEffect(() => {
     nav.setOptions({
       headerRight: () => (
-        <TouchableNativeFeedback onPress={() => onShowMap()}>
-          <View
-            style={{
-              backgroundColor: '#627ca8',
-              padding: 5,
-              margin: 10,
-              borderRadius: 5,
-              justifyContent: 'center',
-            }}>
-            <Text style={{color: 'white'}}>show on map</Text>
-          </View>
-        </TouchableNativeFeedback>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginHorizontal: 10,
+          }}>
+          <TouchableNativeFeedback onPress={() => onShowMap()}>
+            <View
+              style={{
+                backgroundColor: '#627ca8',
+                padding: 5,
+                margin: 10,
+                borderRadius: 5,
+                justifyContent: 'center',
+              }}>
+              <Text style={{color: 'white'}}>show on map</Text>
+            </View>
+          </TouchableNativeFeedback>
+          <TouchableNativeFeedback onPress={() => onShowChats()}>
+            <Icon style={{color: Colors.primary}} name="ios-chatbubbles"></Icon>
+          </TouchableNativeFeedback>
+        </View>
       ),
     }),
       getData(lat, lng);
@@ -53,6 +64,10 @@ function ListingScreen({route, navigation}) {
 
   const onShowMap = () => {
     navigation.navigate('MapScreen', {lat, lng});
+  };
+
+  const onShowChats = () => {
+    navigation.navigate('AllChats');
   };
 
   const onReload = async () => {
@@ -103,8 +118,8 @@ function ListingScreen({route, navigation}) {
           data={places}
           keyExtractor={(item, index) => index.toString()}
         />
+        <AppFab />
       </View>
-      <AppFab />
       <Loading visible={loading && !refreshing} />
     </>
   );
@@ -116,7 +131,7 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
     // alignItems: 'center',
     // padding: 15,
-    backgroundColor: '#eee9e0',
+    backgroundColor: Colors.secondary,
   },
 });
 

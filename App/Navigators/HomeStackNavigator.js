@@ -27,15 +27,10 @@ function HomeStackNavigator() {
         // headerTransparent: true,
       }}>
       <Stack.Screen
-        name="SelectLocation"
-        component={SelectLocation}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
         name="Listing"
         component={ListingScreen}
         options={{
-          title: '',
+          title: 'PG',
         }}
       />
       <Stack.Screen

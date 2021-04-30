@@ -9,6 +9,7 @@ import firestore from '@react-native-firebase/firestore';
 import AppStackNavigator from './App/Navigators/AppStackNavigator';
 function App() {
   const [user, setUser] = useState();
+  const [location, setLocation] = useState();
 
   useEffect(() => {
     setUser(auth().currentUser);
@@ -16,7 +17,7 @@ function App() {
   }, []);
 
   return (
-    <AuthContext.Provider value={{user, setUser}}>
+    <AuthContext.Provider value={{user, setUser, location, setLocation}}>
       <NavigationContainer>
         {user ? <AppStackNavigator /> : <AuthNavigator />}
       </NavigationContainer>

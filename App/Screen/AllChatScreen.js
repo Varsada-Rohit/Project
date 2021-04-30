@@ -17,14 +17,14 @@ function AllChatScreen({navigation}) {
   }, []);
 
   const getAllChats = () => {
+    let allChats = [];
     firestore()
       .collection('Chat')
       .where('members', 'array-contains', user.email)
       .get()
-      .then(async (data) => {
-        // let allChats = [];
-
-        await data.forEach(async (chatData) => {
+      .then((data) => {
+        console.log('hhh', data.size);
+        data.forEach(async (chatData) => {
           let members = chatData.data().members;
 
           let chatUser =
@@ -46,21 +46,26 @@ function AllChatScreen({navigation}) {
             msg: recentMessage.msg,
             time: time,
             id: chatData.id,
+            user2Id: chatUser,
           };
 
-          await firestore()
-            .collection('Users')
-            .doc(chatUser)
-            .get()
-            .then((data) => {
-              obj.user = data.data().Name;
-            });
-
-          //   allChats.push(obj);
-          let allChats = [...chats];
           allChats.push(obj);
-          setChats(allChats);
         });
+      })
+      .then(async () => {
+        const result = await Promise.all(
+          allChats.map(async (all, index) => {
+            await firestore()
+              .collection('Users')
+              .doc(all.user2Id)
+              .get()
+              .then((data) => {
+                all.user = data.data().Name;
+              });
+            return all;
+          }),
+        );
+        setChats(result);
       });
   };
 
@@ -77,7 +82,6 @@ function AllChatScreen({navigation}) {
           </List>
         </Content>
       </Container>
-      <Button title="yes" onPress={() => console.log(chats)} />
     </View>
   );
 }

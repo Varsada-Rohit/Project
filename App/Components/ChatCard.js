@@ -17,7 +17,7 @@ function ChatCard({chat, navigation}) {
           }}
         />
       </Left>
-      <Body>
+      <Body style={{paddingBottom: 18}}>
         <Text>{chat.user}</Text>
         <Text note>{chat.msg}</Text>
       </Body>

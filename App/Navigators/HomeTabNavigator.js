@@ -6,6 +6,8 @@ import {Icon} from 'native-base';
 import HomeStackNavigator from './HomeStackNavigator';
 import ProfileStackNavigator from './ProfileStackNavigator';
 import AddingStackNavigator from './AddingStackNavigator';
+import Mess from '../Screen/Mess';
+import {getFocusedRouteNameFromRoute} from '@react-navigation/core';
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -20,10 +22,12 @@ function HomeTabNavigator() {
             iconName = focused
               ? 'ios-search-circle'
               : 'ios-search-circle-outline';
-          } else if (route.name === 'Add') {
-            iconName = focused ? 'ios-add-circle' : 'ios-add-circle-outline';
+          } else if (route.name === 'Mess') {
+            iconName = focused ? 'ios-restaurant' : 'ios-restaurant-outline';
           } else if (route.name === 'ProfileStack') {
             iconName = focused ? 'person-circle' : 'person-circle-outline';
+          } else if (route.name === 'Book') {
+            iconName = focused ? 'ios-book' : 'ios-book-outline';
           }
 
           // You can return any component that you like here!
@@ -77,7 +81,8 @@ function HomeTabNavigator() {
       // }}
     >
       <Tab.Screen name="Home" component={HomeStackNavigator} />
-      <Tab.Screen name="Add" component={AddingStackNavigator} />
+      <Tab.Screen name="Mess" component={Mess} />
+      <Tab.Screen name="Book" component={Mess} />
       <Tab.Screen name="ProfileStack" component={ProfileStackNavigator} />
     </Tab.Navigator>
   );

@@ -7,18 +7,20 @@ import {SharedElement} from 'react-navigation-shared-element';
 const AppCard = ({title, rent, photo, rating, additionF, coordinate, id}) => {
   const [facilities, setfacilities] = useState();
   useEffect(() => {
-    let f = [];
-    Object.keys(additionF).map((obj) => {
-      if (additionF[obj]) {
-        f.push(obj);
+    if (additionF) {
+      let f = [];
+      Object.keys(additionF).map((obj) => {
+        if (additionF[obj]) {
+          f.push(obj);
+        }
+      });
+      if (f.length > 3) {
+        setfacilities(
+          f.slice(0, 3).join(' | ') + ' | +' + (f.length - 3).toString(),
+        );
+      } else {
+        setfacilities(f.join(' | '));
       }
-    });
-    if (f.length > 3) {
-      setfacilities(
-        f.slice(0, 3).join(' | ') + ' | +' + (f.length - 3).toString(),
-      );
-    } else {
-      setfacilities(f.join(' | '));
     }
   }, []);
 

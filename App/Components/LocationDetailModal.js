@@ -47,7 +47,7 @@ const LocationDetailModal = ({
       <View
         style={{
           zIndex: 10,
-          flex: 1,
+          flexGrow: 1,
 
           // justifyContent: 'center',
         }}>
@@ -148,7 +148,7 @@ const LocationDetailModal = ({
         </View>
         {/* <Button title="Hide" onPress={() => panel.current.hide()} /> */}
       </View>
-      <View style={{paddingHorizontal: 10, flex: 1, flexDirection: 'row'}}>
+      <View style={{paddingHorizontal: 10, flexDirection: 'row'}}>
         <AppButton
           style={{
             height: 40,

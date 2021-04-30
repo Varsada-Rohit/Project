@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -10,10 +10,12 @@ import {Icon, Button} from 'native-base';
 navigator.geolocation = require('@react-native-community/geolocation');
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import {useNavigation} from '@react-navigation/native';
+import AuthContext from '../Auth/Context';
 
 function SelectLocation({navigation}) {
   const [animatingValue, setAnimatingValue] = useState(new Animated.Value(1));
   const [coordinate, setCoordinate] = useState();
+  const {location, setLocation} = useContext(AuthContext);
 
   useNavigation;
 
@@ -47,10 +49,7 @@ function SelectLocation({navigation}) {
             <TouchableOpacity
               disabled={coordinate ? false : true}
               onPress={() => {
-                navigation.navigate('Home', {
-                  screen: 'Listing',
-                  params: coordinate,
-                });
+                navigation.navigate('HomeTab');
               }}>
               <Icon
                 style={{color: coordinate ? 'black' : '#A9A9A9', margin: 10}}
@@ -89,10 +88,8 @@ function SelectLocation({navigation}) {
             // 'details' is provided when fetchDetails = true
             resetAnimation();
             setCoordinate(details.geometry.location);
-            navigation.navigate('Home', {
-              screen: 'Listing',
-              params: details.geometry.location,
-            });
+            setLocation(details.geometry.location);
+            navigation.navigate('HomeTab');
             // console.log(details.geometry.location);
             // console.log(data);
           }}

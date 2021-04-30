@@ -12,9 +12,11 @@ import FormInputImage from '../Components/FormInputImage';
 import FormSubmit from '../Components/FormSubmit';
 import GetCoordinates from '../Components/GetCoordinates';
 import Loading from '../Components/Loading';
+import useAuth from '../Auth/useAuth';
 
 function AddMess() {
   const [loading, setLoading] = useState(false);
+  const {user} = useAuth();
 
   const Schema = yup.object().shape({
     title: yup.string().required().label('Name'),
@@ -45,6 +47,8 @@ function AddMess() {
         ),
         geohash: geo,
         photos: [],
+        rating: 0,
+        user: user.email,
         ...formdata,
       })
       .then(async (data) => {

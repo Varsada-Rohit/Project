@@ -13,46 +13,77 @@ import Upload from '../Backend/Upload';
 import {useNavigation} from '@react-navigation/native';
 import Loading from '../Components/Loading';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {Icon} from 'native-base';
+import {Body, Button, Header, Icon, Left, Right, Title} from 'native-base';
 import AppFab from '../Components/AppFab';
 import Colors from '../Config/Colors';
 import AuthContext from '../Auth/Context';
 
-function ListingScreen({navigation}) {
-  const [places, setPlaces] = useState();
-  const [refreshing, setRefreshing] = useState(false);
-  const [loading, setLoading] = useState(false);
+function Mess({navigation}) {
+  const [messes, setMesses] = useState();
   const {location} = useContext(AuthContext);
   const {lat, lng} = location;
+  const [refreshing, setRefreshing] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const nav = useNavigation();
 
-  useEffect(() => {
-    nav.setOptions({
-      headerRight: () => (
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginHorizontal: 10,
-          }}>
-          <TouchableNativeFeedback onPress={() => onShowMap()}>
+  const MyHeader = () => {
+    return (
+      <Header transparent color="red    ">
+        <Left>
+          <Button
+            transparent
+            onPress={() => navigation.navigate('SelectLocation')}>
+            <Icon style={{color: Colors.primary}} name="ios-arrow-back"></Icon>
+          </Button>
+        </Left>
+        <Body>
+          <Title style={{color: Colors.primary, fontWeight: '700'}}>Mess</Title>
+        </Body>
+        <Right>
+          <Button transparent>
             <MaterialCommunityIcons
               style={{
                 color: Colors.primary,
-                fontSize: 28,
-                marginHorizontal: 10,
+                fontSize: 25,
               }}
               name="map-marker-radius"
             />
-          </TouchableNativeFeedback>
-          <TouchableNativeFeedback onPress={() => onShowChats()}>
+          </Button>
+          <Button transparent>
             <Icon style={{color: Colors.primary}} name="ios-chatbubbles"></Icon>
-          </TouchableNativeFeedback>
-        </View>
-      ),
-    }),
-      getData(lat, lng);
+          </Button>
+        </Right>
+      </Header>
+    );
+  };
+
+  useEffect(() => {
+    // nav.setOptions({
+    //   headerRight: () => (
+    //     <View
+    //       style={{
+    //         flexDirection: 'row',
+    //         alignItems: 'center',
+    //         marginHorizontal: 10,
+    //       }}>
+    //       <TouchableNativeFeedback onPress={() => onShowMap()}>
+    //         <MaterialCommunityIcons
+    //           style={{
+    //             color: Colors.primary,
+    //             fontSize: 28,
+    //             marginHorizontal: 10,
+    //           }}
+    //           name="map-marker-radius"
+    //         />
+    //       </TouchableNativeFeedback>
+    //       <TouchableNativeFeedback onPress={() => onShowChats()}>
+    //         <Icon style={{color: Colors.primary}} name="ios-chatbubbles"></Icon>
+    //       </TouchableNativeFeedback>
+    //     </View>
+    //   ),
+    // }),
+    getData(lat, lng);
   }, []);
 
   const onShowMap = () => {
@@ -71,9 +102,9 @@ function ListingScreen({navigation}) {
 
   const getData = async (latitude, longitude) => {
     setLoading(true);
-    await Upload.getFirebaseData('PG', latitude, longitude, 5000).then(
+    await Upload.getFirebaseData('Mess', latitude, longitude, 5000).then(
       (data) => {
-        setPlaces(data);
+        setMesses(data);
       },
     );
     setLoading(false);
@@ -81,6 +112,7 @@ function ListingScreen({navigation}) {
 
   return (
     <>
+      <MyHeader />
       <View style={styles.container}>
         <FlatList
           refreshControl={
@@ -97,18 +129,18 @@ function ListingScreen({navigation}) {
               }>
               <View>
                 <AppCard
-                  title={item.Title}
-                  rent={item.Rent}
+                  title={item.title}
+                  rent={item.rate}
                   id={index.toString()}
-                  photo={item['Photos'][0]}
+                  photo={item['photos'][0]}
                   rating={item.rating}
-                  additionF={item.AdditionFacilities}
+                  //   additionF={item.AdditionFacilities}
                   coordinate={item.Location}
                 />
               </View>
             </TouchableNativeFeedback>
           )}
-          data={places}
+          data={messes}
           keyExtractor={(item, index) => index.toString()}
         />
         <AppFab navigation={navigation} />
@@ -128,4 +160,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ListingScreen;
+export default Mess;

@@ -1,8 +1,7 @@
-import React, {createRef, useEffect, useState} from 'react';
+import React, {createRef, useContext, useEffect, useState} from 'react';
 import {
   View,
   StyleSheet,
-  Dimensions,
   Image,
   Text,
   TouchableWithoutFeedback,
@@ -12,18 +11,16 @@ import {
 } from 'react-native';
 import useAuth from '../Auth/useAuth';
 import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
-import SlidingUpPanel from 'rn-sliding-up-panel';
 import firestore from '@react-native-firebase/firestore';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import LocationDetailModal from '../Components/LocationDetailModal';
 import Upload from '../Backend/Upload';
 import Loading from '../Components/Loading';
 import Colors from '../Config/Colors';
-import {Icon, Left} from 'native-base';
-import AppButton from '../Components/AppButton';
+import {Icon} from 'native-base';
 import {Rating} from 'react-native-ratings';
 import {SharedElement} from 'react-navigation-shared-element';
+import AuthContext from '../Auth/Context';
 
 function MapScreen({route, navigation}) {
   const {removeToken} = useAuth();
@@ -43,7 +40,8 @@ function MapScreen({route, navigation}) {
   const [loading, setLoading] = useState(false);
   const [cardAnimValue, setCardAnimValue] = useState(new Animated.Value(0));
 
-  const {lat, lng} = route.params;
+  const {location} = useContext(AuthContext);
+  const {lat, lng} = location;
 
   useEffect(() => {
     getFData();
@@ -244,9 +242,10 @@ function MapScreen({route, navigation}) {
                   <Image
                     progressiveRenderingEnabled={true}
                     source={{
-                      uri: selected
-                        ? places[selected]['photo']
-                        : firebaseData[fireSelected]['Photos'][0],
+                      uri:
+                        selected != null
+                          ? places[selected]['photo']
+                          : firebaseData[fireSelected]['Photos'][0],
                     }}
                     resizeMode="cover"
                     style={{
@@ -267,7 +266,7 @@ function MapScreen({route, navigation}) {
                     <Text
                       numberOfLines={2}
                       style={{fontSize: 14, fontWeight: '700'}}>
-                      {selected
+                      {selected != null
                         ? places[selected]['Title']
                         : firebaseData[fireSelected]['Title']}
                     </Text>
@@ -286,7 +285,7 @@ function MapScreen({route, navigation}) {
                         color: Colors.grey,
                       }}>
                       (
-                      {+selected
+                      {+selected != null
                         ? places[selected]['noOfRatings']
                         : firebaseData[fireSelected]['noOfRatings'] + ')'}
                       )
@@ -393,7 +392,6 @@ function MapScreen({route, navigation}) {
                     setSelected(index);
                     setShowCard(true);
                     AnimateCard();
-                    // panel.current.show(300);
                   }}
                   title={coordinate.Title}></Marker>
               );

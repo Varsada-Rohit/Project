@@ -3,6 +3,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import Addpg from '../Screen/Addpg';
 import Colors from '../Config/Colors';
 import AddMess from '../Screen/AddMess';
+import AddBook from '../Screen/AddBook';
 
 const Stack = createStackNavigator();
 
@@ -24,6 +25,11 @@ function AddingStackNavigator() {
         name="AddPG"
         component={Addpg}
         options={{headerTitle: 'Room Detail'}}
+      />
+      <Stack.Screen
+        name="AddBook"
+        component={AddBook}
+        options={{headerTitle: 'Book Detail'}}
       />
     </Stack.Navigator>
   );

@@ -29,6 +29,8 @@ function ListingDetail({route, navigation}) {
       address={item.Address}
       title={item.Title}
       about={item.About}
+      forBoys={item.ForBoys ? item.ForBoys : null}
+      additionalF={item.AdditionFacilities ? item.AdditionFacilities : null}
       directionUrl={
         item.url
           ? item.url

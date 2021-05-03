@@ -38,10 +38,10 @@ const getFirebaseData = async (collection, latitude, longitude, distance) => {
   return data;
 };
 
-const getUserProperties = async (user) => {
+const getUserProperties = async (collection, user) => {
   let places = [];
   await firestore()
-    .collection('PG')
+    .collection(collection)
     .where('userId', '==', user)
     .get()
     .then((data) => {
@@ -52,7 +52,64 @@ const getUserProperties = async (user) => {
   return places;
 };
 
+const fetchGoogleData = async (url, pt) => {
+  let finalUrl = pt ? url + '&pagetoken=' + pt : url;
+  let datas = [];
+  await fetch(finalUrl, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      datas = data;
+      // if (data.next_page_token) {
+      //   // setTimeout(() => {
+      //   //   fetchUrl(url, data.next_page_token);
+      //   // }, 2000);
+      //   setMarker(data.next_page_token);
+      // }
+    });
+  return datas;
+};
+
+const getPlaceDetails = async (placeId) => {
+  let url =
+    'https://maps.googleapis.com/maps/api/place/details/json?fields=website,formatted_phone_number,photo,price_level&key=AIzaSyCiXRGvZ23QernKQP4lnzH-8mdj2Zdb2fs&place_id=' +
+    placeId;
+  let detail = '';
+  await fetch(url)
+    .then((res) => res.json())
+    .then((data) => {
+      let photoUrls = [];
+      if (data.result.photos) {
+        for (const i in data.result.photos) {
+          if (i == 10) {
+            break;
+          }
+          let Url =
+            'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=' +
+            data.result.photos[i].photo_reference +
+            '&key=AIzaSyCiXRGvZ23QernKQP4lnzH-8mdj2Zdb2fs';
+          photoUrls.push(Url);
+        }
+      }
+      detail = {
+        phone: data.result.formatted_phone_number
+          ? data.result.formatted_phone_number
+          : null,
+        website: data.result.website ? data.result.website : null,
+        Photos: photoUrls,
+      };
+    });
+  return detail;
+};
+
 export default {
   getFirebaseData,
   getUserProperties,
+  fetchGoogleData,
+  getPlaceDetails,
 };

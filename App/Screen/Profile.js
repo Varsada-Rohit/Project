@@ -22,6 +22,8 @@ function Profile({navigation}) {
   const {user, removeToken} = useAuth();
 
   const [properties, setProperties] = useState([]);
+  const [books, setBooks] = useState([]);
+  const [messes, setMesses] = useState([]);
   const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
@@ -57,9 +59,12 @@ function Profile({navigation}) {
 
   const getProperties = async () => {
     setRefresh(true);
-    const data = await Upload.getUserProperties(user.email);
-
+    const data = await Upload.getUserProperties('PG', user.email);
     setProperties(data);
+    const data1 = await Upload.getUserProperties('Book', user.email);
+    setBooks(data1);
+    const data2 = await Upload.getUserProperties('Mess', user.email);
+    setMesses(data2);
     setRefresh(false);
   };
 
@@ -77,8 +82,22 @@ function Profile({navigation}) {
           Properties
         </Text>
         <AppListItem
+          icon="ios-home"
+          text="Listed Properties"
           total={properties.length}
           onPress={() => navigation.navigate('Properties', {properties})}
+        />
+        <AppListItem
+          icon="ios-restaurant"
+          text="Listed Mess"
+          total={messes.length}
+          onPress={() => navigation.navigate('UserMesses', {messes})}
+        />
+        <AppListItem
+          icon="ios-book"
+          total={books.length}
+          text="Your Book"
+          onPress={() => navigation.navigate('UserBooks', {books: books})}
         />
         {/* <FlatList
         data={properties}

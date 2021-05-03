@@ -5,6 +5,7 @@ import {
   Animated,
   TouchableNativeFeedback,
   TouchableOpacity,
+  Text,
 } from 'react-native';
 import {Icon, Button} from 'native-base';
 navigator.geolocation = require('@react-native-community/geolocation');
@@ -21,7 +22,7 @@ function SelectLocation({navigation}) {
 
   const animateHeight = () => {
     Animated.timing(animatingValue, {
-      toValue: 0.1,
+      toValue: 0.4,
       useNativeDriver: false,
       duration: 500,
     }).start();
@@ -38,7 +39,19 @@ function SelectLocation({navigation}) {
   return (
     <>
       <Animated.View style={[styles.block1, {flex: animatingValue}]}>
-        <View style={styles.input}></View>
+        {/* <View style={styles.input}></View> */}
+        <Text
+          style={{
+            fontSize: 70,
+            color: 'white',
+            fontFamily: 'ShadowsIntoLight-Regular',
+            textShadowColor: 'rgba(0, 0, 0, 0.75)',
+            textShadowOffset: {width: -1, height: 1},
+            textShadowRadius: 70,
+            overflow: 'visible',
+          }}>
+          {' ' + 'SES' + ' '}
+        </Text>
       </Animated.View>
       <View style={styles.block2}>
         <GooglePlacesAutocomplete
@@ -109,7 +122,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#627ca8',
     justifyContent: 'flex-end',
     alignItems: 'center',
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
+    position: 'relative',
     // flex: 1,
     // zIndex: 1,
   },

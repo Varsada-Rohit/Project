@@ -46,10 +46,14 @@ function AddMess() {
           values.coordinate['longitude'],
         ),
         geohash: geo,
-        photos: [],
+        Photos: [],
         rating: 0,
-        user: user.email,
-        ...formdata,
+        userId: user.email,
+        About: formdata.about,
+        rate: formdata.rate,
+        noOfRatings: 0,
+        Address: formdata.address,
+        Title: formdata.title,
       })
       .then(async (data) => {
         await values.images.map(async (img, i) => {
@@ -60,7 +64,7 @@ function AddMess() {
           let url = await storageRef.getDownloadURL();
           await firestoreRef
             .doc(data.id)
-            .update({photos: firestore.FieldValue.arrayUnion(url)});
+            .update({Photos: firestore.FieldValue.arrayUnion(url)});
         });
         resetForm();
         setLoading(false);

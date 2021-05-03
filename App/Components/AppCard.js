@@ -60,14 +60,16 @@ const AppCard = ({title, rent, photo, rating, additionF, coordinate, id}) => {
           </SharedElement>
         </Right>
       </CardItem>
-      <CardItem style={{paddingTop: 0}}>
-        <Left>
-          <Text note>{facilities}</Text>
-        </Left>
-        <Right>
-          <Text>&#8377;{rent}</Text>
-        </Right>
-      </CardItem>
+      {(rent || additionF) && (
+        <CardItem style={{paddingTop: 0}}>
+          <Left>
+            <Text note>{facilities}</Text>
+          </Left>
+          <Right>
+            <Text>&#8377;{rent}</Text>
+          </Right>
+        </CardItem>
+      )}
     </Card>
   );
 };

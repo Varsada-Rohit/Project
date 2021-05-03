@@ -39,18 +39,22 @@ function MapScreen({route, navigation}) {
   const [ownerData, setOwnerData] = useState();
   const [loading, setLoading] = useState(false);
   const [cardAnimValue, setCardAnimValue] = useState(new Animated.Value(0));
+  const {key} = route.params;
 
   const {location} = useContext(AuthContext);
   const {lat, lng} = location;
 
   useEffect(() => {
+    console.log('key', key);
     getFData();
     let url =
       'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' +
       lat +
       ',' +
       lng +
-      '&radius=5000&keyword=pg&key=AIzaSyCiXRGvZ23QernKQP4lnzH-8mdj2Zdb2fs';
+      '&radius=5000&keyword=' +
+      key +
+      '&key=AIzaSyCiXRGvZ23QernKQP4lnzH-8mdj2Zdb2fs';
     setURL(url);
 
     fetchUrl(url, null);
@@ -117,7 +121,12 @@ function MapScreen({route, navigation}) {
     //     longitudeDelta: 0.1,
     //   });
     setLoading(true);
-    await Upload.getFirebaseData('PG', lat, lng, 5000).then((data) => {
+    await Upload.getFirebaseData(
+      key == 'pg' ? 'PG' : 'Mess',
+      lat,
+      lng,
+      5000,
+    ).then((data) => {
       setFirebaseData(data);
       // setLoading(false);
     });
@@ -277,7 +286,15 @@ function MapScreen({route, navigation}) {
                       marginVertical: 3,
                       alignItems: 'center',
                     }}>
-                    <Rating imageSize={12} startingValue={3} readonly />
+                    <Rating
+                      imageSize={12}
+                      startingValue={
+                        selected != null
+                          ? places[selected]['rating']
+                          : firebaseData[fireSelected]['rating']
+                      }
+                      readonly
+                    />
                     <Text
                       style={{
                         fontSize: 12,
@@ -285,7 +302,7 @@ function MapScreen({route, navigation}) {
                         color: Colors.grey,
                       }}>
                       (
-                      {+selected != null
+                      {selected != null
                         ? places[selected]['noOfRatings']
                         : firebaseData[fireSelected]['noOfRatings'] + ')'}
                       )

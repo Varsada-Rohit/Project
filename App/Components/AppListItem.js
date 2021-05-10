@@ -3,15 +3,15 @@ import {View, StyleSheet, TouchableNativeFeedback} from 'react-native';
 import {Body, Button, Icon, Left, ListItem, Right, Text} from 'native-base';
 import Colors from '../Config/Colors';
 
-function AppListItem({total, onPress}) {
+function AppListItem({total, onPress, icon, text}) {
   return (
     <View style={styles.container}>
       <ListItem icon onPress={onPress}>
         <Left>
-          <Icon name="ios-home" style={{color: Colors.primary}} />
+          <Icon name={icon} style={{color: Colors.primary}} />
         </Left>
         <Body>
-          <Text>Listed Properties</Text>
+          <Text>{text}</Text>
         </Body>
         <Right>
           <Text>{total}</Text>

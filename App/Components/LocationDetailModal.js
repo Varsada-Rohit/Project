@@ -1,5 +1,6 @@
+import CheckBox from '@react-native-community/checkbox';
 import {Item} from 'native-base';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   View,
   StyleSheet,
@@ -12,9 +13,11 @@ import {
 import {Rating} from 'react-native-ratings';
 import Swiper from 'react-native-swiper';
 import {SharedElement} from 'react-navigation-shared-element';
+import useAuth from '../Auth/useAuth';
 
 import Colors from '../Config/Colors';
 import AppButton from './AppButton';
+import LabeledCheckbox from './LabeledCheckbox';
 import PanelList from './PanelList';
 
 const LocationDetailModal = ({
@@ -29,7 +32,15 @@ const LocationDetailModal = ({
   style,
   navigation,
   ownerId,
+  forBoys,
+  additionalF,
 }) => {
+  const {user} = useAuth();
+  useEffect(() => {
+    console.log('test', forBoys);
+    return () => {};
+  }, []);
+
   return (
     <ScrollView
       contentContainerStyle={[
@@ -146,6 +157,53 @@ const LocationDetailModal = ({
             {about && <PanelList text={about} icon="information-outline" />}
           </View>
         </View>
+        {forBoys != null && (
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+
+              marginHorizontal: 3,
+              padding: 15,
+
+              marginVertical: 5,
+            }}>
+            <Text style={{fontSize: 16, fontWeight: '700'}}>For </Text>
+            <Text style={{marginLeft: 10}}>Boys</Text>
+            <CheckBox
+              value={forBoys}
+              tintColors={{true: Colors.primary, false: Colors.black}}
+              disabled
+            />
+            <Text style={{marginLeft: 10}}>Girls</Text>
+            <CheckBox
+              value={!forBoys}
+              tintColors={{true: Colors.primary, false: Colors.black}}
+              disabled
+            />
+          </View>
+        )}
+        {additionalF && (
+          <>
+            <Text
+              style={{
+                fontSize: 16,
+                fontWeight: '700',
+                paddingLeft: 8,
+                marginTop: 10,
+                marginLeft: 10,
+              }}>
+              Addition Facilities
+            </Text>
+            <View style={{paddingHorizontal: 10, marginLeft: 10}}>
+              {Object.keys(additionalF).map((key, index) => {
+                return (
+                  additionalF[key] && <Text key={index.toString()}>{key}</Text>
+                );
+              })}
+            </View>
+          </>
+        )}
         {/* <Button title="Hide" onPress={() => panel.current.hide()} /> */}
       </View>
       <View style={{paddingHorizontal: 10, flexDirection: 'row'}}>
@@ -164,7 +222,7 @@ const LocationDetailModal = ({
             Linking.openURL(directionUrl);
           }}
         />
-        {ownerId && (
+        {ownerId && user.email != ownerId && (
           <AppButton
             style={{
               height: 40,

@@ -7,4 +7,5 @@ export default {
   lightSecondary: '#fffcf7',
   primary: '#627ca8',
   secondary: '#eee9e0',
+  lightPrimary: 'rgba(162, 171, 186,0.2)',
 };

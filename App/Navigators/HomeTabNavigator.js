@@ -8,6 +8,9 @@ import ProfileStackNavigator from './ProfileStackNavigator';
 import AddingStackNavigator from './AddingStackNavigator';
 import Mess from '../Screen/Mess';
 import {getFocusedRouteNameFromRoute} from '@react-navigation/core';
+import BookListing from '../Screen/BookListing';
+import BookStackNavigator from './BookStackNavigator';
+import MessStackNavigator from './MessStackNavigator';
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -19,14 +22,12 @@ function HomeTabNavigator() {
           let iconName;
 
           if (route.name === 'Home') {
-            iconName = focused
-              ? 'ios-search-circle'
-              : 'ios-search-circle-outline';
-          } else if (route.name === 'Mess') {
+            iconName = focused ? 'ios-home' : 'ios-home-outline';
+          } else if (route.name === 'MessStack') {
             iconName = focused ? 'ios-restaurant' : 'ios-restaurant-outline';
           } else if (route.name === 'ProfileStack') {
             iconName = focused ? 'person-circle' : 'person-circle-outline';
-          } else if (route.name === 'Book') {
+          } else if (route.name === 'BookStack') {
             iconName = focused ? 'ios-book' : 'ios-book-outline';
           }
 
@@ -81,8 +82,8 @@ function HomeTabNavigator() {
       // }}
     >
       <Tab.Screen name="Home" component={HomeStackNavigator} />
-      <Tab.Screen name="Mess" component={Mess} />
-      <Tab.Screen name="Book" component={Mess} />
+      <Tab.Screen name="MessStack" component={MessStackNavigator} />
+      <Tab.Screen name="BookStack" component={BookStackNavigator} />
       <Tab.Screen name="ProfileStack" component={ProfileStackNavigator} />
     </Tab.Navigator>
   );

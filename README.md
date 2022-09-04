@@ -43,7 +43,7 @@ react-native run-ios
 <li>Students can chat with owner and their senior</li>
 </ul><h2>Screenshots</h2>
 <hr><p><img src="https://www.rohitvarsada.me/static/media/SESmockup.1b436f97309caa1fb2ef.png" alt=""></p><h5>Steps</h5><ul>
-<li>git clone https://github.com/Varsada-Rohit/Project/blob/master/README.md</li>
+<li>git clone https://github.com/Varsada-Rohit/Project.git</li>
 </ul><ul>
 <li>cd Project</li>
 </ul><ul>

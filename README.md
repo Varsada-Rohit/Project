@@ -2,7 +2,7 @@
 A app for college students to find nearby pg and messes.
 
 
-/*<img src="demo.gif" alt="demo" width="60%"/>*/
+*<img src="demo.gif" alt="demo" width="60%"/>*
 
 ## Install and run on android
 ```
